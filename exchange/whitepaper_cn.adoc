@@ -42,143 +42,150 @@ Bisq 使用自定义*建立在Tor上的P2P网络*保护用户的*隐私*,每个�
 
 === 与相关项目比较
 
-One may describe Bisq as a *fully decentralized* version of https://localbitcoins.com/[LocalBitcoins], where:
+Bisq像一个去中心化版本的 https://localbitcoins.com/[LocalBitcoins] ：
 
- - no central place exists to collect user data
- - no servers exist to attract adversaries
- - no trust is needed in the service provider (Bisq)
- - users have exclusive ownership of their funds
- - users do not rely on a reputation system, which can be manipulated
+ - 没有收集用户信息的中心区域
+ - 没有可招引的敌人的服务器
+ - 不需要信任服务器供应商(Bisq)
+ - 用户对其资金有唯一所有权
+ - 用户不依赖可操纵的评价系统
 
-Bisq resembles other decentralized projects, such as http://openbazaar.org/[OpenBazaar] or https://voluntary.net/bitmarkets/[Bitmarkets], which employ similar protection mechanisms. However, those projects behave as Ebay-style marketplaces rather than (crypto-)currency exchanges.
 
-== Overview
+Bisq类似于其他分散的项目, 例如 http://openbazaar.org/[OpenBazaar] 或 https://voluntary.net/bitmarkets/[Bitmarkets], 采用类似的保护机制. 然而, 这些项目像是淘宝、Ebay风格的市场，而不是（加密）货币交易所。
 
-This graphical overview shows the basic high-level flow of the trade process. See the link:images/trade-process-detail.png[detailed version] for more information.
+== 概况
 
-image::images/trade-process-overview.png[Trade process overview]
 
-These https://vimeo.com/getbitsquare/[videos] demonstrate the current software and give a more detailed explanation of the trade process. A detailed graphical representation of the link:{uri-payment-protocol}[trade protocol] should help to explain the way the payment process is executed. A document also discusses the possible {uri-risk-analysis}[risks, attacks and protection mechanisms]. An {uri-arbitration-system}[arbitration system] will serve as primary protection mechanism and is also described in a separate document.
+该图形概述显示了交易过程的基本高级流程。 有关详细信息，请参阅 images/trade-process-detail.png[详细版本]。
+image::images/trade-process-overview.png[交易流程概述]
 
-=== Main characteristics
+这些 https://vimeo.com/getbitsquare/[视频]演示了当前的软件，并对交易过程进行了更详细的说明。
 
- - P2P infrastructure without servers: No single point of failure and no privacy breach due transaction monitoring possible.
- - National (or alternative crypto) currency are transferred directly from one user's payment account to the others payment account without any intermediate party.
- - Support for alternative crypto currencies to be exchanged with Bitcoin.
- - No registration or identification process
- - Decentralized arbitrator system as primary protection mechanism
- - Security deposit as additional incentive for following the trade protocol
- - A atomic deposit transaction locks up both traders funds to a 2 of 3 multisig address
- - Trading fees as protection against spam and market manipulation
- - A limit on the trade amount (1 BTC) to reduce the overall risk exposure
- - Open source license (https://github.com/bisq-network/exchange/blob/master/LICENSE[AGPL])
- - Contract holds all trade details and is signed by both traders, it will be used as evidence in case of a dispute
- - Fraud reports as protection against bank charge backs and crime (stolen payment account)
+link:{uri-payment-protocol}[交易流程]的详细图示可以帮助您了解支付流程。
+文件还讨论了可能的{uri-risk-analysis}[风险，攻击和保护机制]。
+{uri-arbitration-system}[仲裁制度]将作为主要的保护机制，并在另一份文件中加以描述。
 
-=== Protection mechanisms
+=== 主要特征
 
-For protecting against several fraud and attack scenarios we use different solutions:
+ - 没有服务器的P2P基础设施：没有单点故障，也不会因为交易监管而导致隐私违规。
+ - 国家（或数字）货币直接从一个用户的付款帐户转移到其他支付账户，而不需要任何中间方。
+ - 支持数字货币与比特币交换。
+ - 无注册或识别过程
+ - 分散仲裁员制度作为主要保护机制
+ - 保证金作为遵守贸易协议的额外动机
+ - 原子存款交易将两个交易者的资金锁定为2 of 3个多重地址中
+ - 交易费作为防止垃圾信息和市场操纵
+ - 限制交易金额（1 BTC）以降低总体风险
+ - 开源许可 (https://github.com/bisq-network/exchange/blob/master/LICENSE[AGPL])
+ - 合同持有所有贸易细节，由两个交易商签署，将被用作纠纷的证据
+ - 欺诈报告作为银行退款和犯罪的保护（被盗付款帐户）
 
- - Trader's security deposit - refunded after successful trade or used as payment for the arbitrator in case of a dispute.
- - Arbitrator - anonymous and randomly assigned. Resolves disputes between traders.
- - Arbitrator's security deposit - locked when the arbitrator is registered and released upon stepping down.
- - Contract - blinded non-refutable proof of trade details
- - Fraud report - reports by arbitrators with proof of clear cases of fraud
- - Trade volume limitation - limits to maximum trade volume in order to reduce potential gain from fraud
+=== 保护机制
 
-=== Business model
 
-Bisq is not a company, but an open-source project that aims to fill a gap in the cryptocurrency ecosystem: to provide an exchange platform which follows the same principles as Bitcoin itself. A unique incentive mechanism is set up to support the project:
+为了防止多种欺诈和攻击情形，我们使用不同的解决方案：
 
- - transaction fees go in part to the developers and in part to the arbitrators
- - in the event of disputes, arbitrators collect the security deposit of the losing party (or in some cases half the deposit of each party)
+ - 交易者的保证金 - 成功交易后退还或用作仲裁员的纠纷支付。
+ - 仲裁员 - 匿名随机分配。 解决贸易商之间的纠纷。
+ - 仲裁员的安全存款 - 注册后被冻结,下台后释放。
+ - 合同 - 不可驳回的贸易明细证明
+ - 欺诈报告 - 仲裁员的报告，证明有明确的欺诈案件
+ - 贸易量限制 - 限制最大贸易量，以减少欺诈的潜在收益
 
-=== Technology
+=== 商业模式
 
-The Bisq application is built in Java 8 with JavaFX for the GUI. For interaction with the Bitcoin network the https://bitcoinj.github.io/[bitcoinj] library is used. For decentralized messaging and data storage a custom flooding (gossiping) network over Tor is used.
+Bisq不是一家公司，而是一个开源项目，其目的是填补隐匿生态系统的空白：提供一个遵循与Bitcoin本身相同原则的交换平台。 设立了一个独特的激励机制来支持项目：
 
-==== P2P network
+ - 交易费部分给开发人员,部分给仲裁员
+ - 在发生纠纷的情况下，仲裁员将收取败诉方的保证金（或在某些情况下收取每方保证金的一半）
 
-There are a few main use cases for the P2P network:
+=== 技术
 
- - Broadcast data (typically offers - public data)
- - Messaging between trading peers (private and end-to-end encrypted)
- - Data storage if trading peer is offline (mailbox-like system)
+Bisq应用程序的GUI使用JavaFX构建在Java 8中。 为了与比特币网络进行交互，使用 https://bitcoinj.github.io/[bitcoinj]库。 对于去中心化的消息传递和数据存储，使用了Tor上的自定义洪流（gossiping）网络。
 
-Key features of the P2P network technology:
+==== P2P 网络
 
- - Highly accessible (NAT traversal, firewalls,...)
- - Protect privacy (Tor hidden services)
- - Redundant data storage (flooded to all peers)
- - Data access protection (using signatures)
- - Resistant against spam/flooding
- - Scalable
+P2P网络有几个主要用例：
 
-You can find more details about the P2P network https://web.archive.org/web/20170601011547/https://bitsquare.io/p2p_network.pdf[here].
+ - 广播数据（通常是公开数据）
+ - 交易对象之间的通信（私有和端到端加密）
+ - 数据存储如果交易对象离线（类似邮箱的系统）
 
-==== Wallet
+P2P网络技术的主要特点：
 
-Bisq protects the privacy between trades by separating each trade with a different set of addresses. No addresses will be used across multiple trades avoiding coin merge and de-anonymisation vectors. The user needs to further take care when doing the deposit from and withdrawal to his external wallet to avoid loss of privacy due coin merge (e.g. usage of Coin Join solutions).
+ - 高度可访问（NAT穿越，防火墙，...）
+ - 保护隐私（Tor隐藏服务）
+ - 冗余数据存储（充斥所有对象）
+ - 数据访问保护（使用签名）
+ - 抵制垃圾邮件/洪流
+ - 可扩展
 
-Wallet key features:
+您可以找到有关P2P网络的更多详细信息 https://web.archive.org/web/20170601011547/https://bitsquare.io/p2p_network.pdf[here].
 
- - Manage the key pairs (https://en.bitcoin.it/wiki/BIP_0032[HD wallet])
- - Create regular and pay-to-script-hash (https://github.com/bitcoin/bips/blob/master/bip-0013.mediawiki[P2SH]) transactions
- - Sign transactions
- - Broadcast transactions
- - Add hash of contract to a transaction (e.g. https://en.bitcoin.it/wiki/Script#Provably_Unspendable.2FPrunable_Outputs[`OP_RETURN`])
+==== 钱包
 
-=== Security Deposit
+Bisq 通过多个不同的地址分离交易双方保护交易双方的隐私,不会在多个交易中使用同一个地址,避免硬币合并和去匿名化引导，用户需要进一步注意的是从外部钱包进行存款和提款，以避免由于硬币合并而导致的隐私损失(e.g. usage of Coin Join solutions).
 
-The security deposit will be derived from the arbitration fee which will be used as payment to the arbitrator only in case of a dispute resolution. If no dispute is opened, this deposit is returned in whole to each trader.
+钱包密钥特征:
 
-The security deposit serves also as an incentive to follow the protocol (e.g. to ensure Bob is not lazy or careless and forgets to release the payout transaction) as well as a mechanism to ensure a dishonest trader is forced to pay the costs for arbitration.
+ - 管理密钥 (https://en.bitcoin.it/wiki/BIP_0032[HD wallet])
+ - 创建常规和支付脚本哈希 (https://github.com/bitcoin/bips/blob/master/bip-0013.mediawiki[P2SH]) 交易
+ - 签署交易
+ - 广播交易
+ - 添加合同哈希到交易 (e.g. https://en.bitcoin.it/wiki/Script#Provably_Unspendable.2FPrunable_Outputs[`OP_RETURN`])
 
-=== Fees
-The fees are necessary for protection against offer book spam, market manipulation and identity harvesting. They are also needed as payment to the arbitrators for their services. Arbitrators are compensated for agreeing in advance to be available to arbitrate a trade even in the case the trade is not disputed.
+=== 保证金
 
-Initially the fees will be kept to a minimum. Later as the trading community grows the fees will be adjusted as needed to make the arbitration system sustainable and to adjust to the level of observed fraud activity.
+仲裁费采自保证金，只有在纠纷解决的情况下才会支付给仲裁员，如果没有任何纠纷被打开，这笔保证金将全部退回给交易者。
 
-To make the payment process fast we do not wait for transaction confirmation of fees. A double spend of the fees is potentially possible but highly unlikely, due to the difficulty of its execution and its low profitability. There will be a second verification at the end of the trade process where a double spend would be detected and that could be used for local blacklisting.
+保证金还可以作为遵守协议的动力（例如确保某人不懒惰或不小心，忘记发放支付交易）以及确保不诚实的交易者被迫支付仲裁费用的机制。
 
-Bisq operates with the following fees:
+=== 费用
 
- - Create offer fee: 0.001 BTC (paid to the arbitrators, mining fee is included)
- - Take offer fee: same as create offer fee (and also paid to the arbitrators)
- - Bitcoin mining fee: 0.0003 BTC (A mining fee is included in a transaction three times: Deposit from external wallet, trade, and withdrawal to external wallet. So the sum is 0.0009 BTC)
- - Security deposit (might be used as arbitration fee): 0.1 BTC, which is returned in whole to the trader after the transaction in case he is not found to have behaved dishonestly. The security deposit from dishonest trader will be used to pay the arbitrator for his efforts. In rare cases half the security deposit of each trader may be collected instead. The active arbitration fee is not related to the size of the trade and does not affect the time required to mediate a dispute as the amount of work an arbitrator must perform is roughly constant even when small amounts are exchanged.
- - (only for arbitrators) arbitrator's security deposit: 2 BTC. In addition, a part of each collected arbitration fee from dishonest traders is locked in the security deposit. This (accumulated) amount is returned in whole to the arbitrator upon stepping down from arbitration.
+这些费用是防止滥发垃圾委托，市场操纵和身份收集的必要条件。它们也需要作为仲裁员为他们服务的费用。即使交易没有纠纷的情况下，仲裁员也可事先获得交易流程，以便事先仲裁。
+最初费用将保持在最低限度。 随后随着贸易社会的增长，费用将根据需要进行调整，使仲裁制度可持续发展，并适应观察到的欺诈行为的程度。
 
-=== Trading protocol
+为了快速支付流程,我们不等待费用交易确定,双重支付费用是有潜在可能,但非常不可能发生的,由于执行难度和低利率.在交易过程结束时将进行第二次验证,将检测到双重支出,这可以用于本地黑名单。
 
-The desktop application implements the protocol for the trading process. When broadcasting an offer, the offering peer agrees to accept any take-offer request which fulfills the terms defined in the offer. The take-offer process requires that the Bisq applications of both traders are running (it can run in background). They do not need to be physically present at their computer, but the software needs to be online to react to the take offer request.
+Bisq经营收取以下费用：
 
-The Bitcoin buyer should wait for at least 1 blockchain confirmation as protection against double spend, before starting the transfer of the national currency (or alternative cryptocurrency). The Bitcoin seller will release the deposit after he has confirmed the receipt of the national currency. link:{uri-payment-protocol}[Here] is a detailed graphical overview of the trade protocol.
+ - 创建委托：0.001 BTC（支付给仲裁员，包括采矿费）
+ - 下单委托：与创建委托费相同（也支付给仲裁员）
+ - 比特币采矿费：0.0003 BTC（采矿费包含在交易中三次：从外部钱包存入，交易退回到外部钱包，所以总和为0.0009 BTC）
+ - 保证金（可能用作仲裁费用）：0.1 BTC，交易后全部退还给交易员，以防发现他不诚实行事。 来自不诚实交易者的保证金将用于支付仲裁员的努力。 在极少数情况下，可能会收取双方交易者的一半担保金。 仲裁费与交易规模无关，不影响调解争议所需的时间，因为仲裁员必须履行的工作量即使交换少量也大致保持一致。
+ - （仅适用于仲裁员）仲裁员的保证金：2 BTC。 另外，从不诚实的交易者收取的仲裁费用的一部分被锁定在保证金中。 这个（累计）金额在从仲裁中退出后全部返还给仲裁员。
 
-=== Arbitration
+=== 交易流程
 
-Bisq relies on a decentralized arbitration system to ensure that traders fulfill their obligations. See the {uri-arbitration-system}[arbitration system] document for more details on how this system works.
+桌面应用程序实现交易过程。广播委托，发布委托方同意接受任何符合要约中定义的条款的要约的下单方。交易过程要求双方交易者的Bisq应用程序正在运行（可以在后台运行）。他们不需要在电脑边上，但是软件需要在线才能对委托要求做出反应。
 
-=== Fraud reports
+在开始转移法定货币（或数字货币）之前,比特币买家应该等待至少1块的确认作为应对双重支出的保护，比特币卖家在确认收到货币后将会发送存款。 {uri-payment-protocol}[这里]是贸易流程的详细图形概述。
+
+=== 仲裁系统
+
+Bisq依靠一个分散的仲裁制度来确保交易者履行其义务。 有关此系统如何工作的更多详细信息，请参阅{uri-arbitration-system}[仲裁系统]文档。
+
+=== 欺诈报告
 
 A fraud report is used to warn about fraud from bank chargebacks, stolen payment accounts or arbitration fee fraud. The arbitration system can not help in these cases because the Bitcoin payment has already been released by the time the fraud is discovered. The fraud report only serves to prevent repeated scam with the same payment account and Tor onion address. More details can be found in the {uri-risk-analysis}[risk analysis] document.
 
-=== Limitations and risks
+=== 限制和风险
 
-==== within Bisq
+==== Bisq内
 
- - Only non-reversible payment transfer methods are supported to minimize the risk of https://en.bitcoin.it/wiki/Payment_methods[chargebacks]
- - You can trade at most 1 Bitcoin per transaction
- - You must already have a small amount of Bitcoin to execute a trade (for paying the security deposit, trade fee and Bitcoin mining fee)
- - The Bisq application must be running (can run in background), in order to allow the user's offer to be taken.
- - Bitcoin is always one part of the exchanged currencies. One cannot trade alternative cryptocurrencies for national currencies.
- - Arbitrators need to lock away 2 Bitcoins, which are only returned when they step back from their service.
+ - 只支持不可逆的支付汇款方式,以便减少 https://en.bitcoin.it/wiki/Payment_methods[回撤]风险
+ - 一次最多只能交易 1 比特币
+ - 必须拥有少量比特币才能发起交易(用于保证金,交易费,挖矿费)
+ - Bisq 应用程序必须运行（可以在后台运行）,以便允许用户的下单.
+ - 比特币永远是交易货币的一部分,其他数字货币不能交易与法定货币直接交易.
+ - 仲裁者需要冻结2比特币,当卸任时返还.
 
-==== outside Bisq
+==== Bisq外
 
- - Depending on the payment method: Personally identifying information will be revealed to the trading partner and stored in the contract as part of the payment transfer.
- - The speed of the trade process depends on the duration of the payment transfer.
- - Application should not be used in jurisdictions where Bitcoin is illegal (risk from trading with undercover agents).
+ - 根据付款方式：个人识别信息将被显示给交易对象，并作为付款汇款的一部分存储在合同中。
+ - 交易过程的速度取决于付款汇款的花费时间。
+ - 应用程序不应在比特币违法的地区的使用（风险来自与秘密代理人进行交易）。
+
 
 === Remarks
 
