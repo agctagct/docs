@@ -129,7 +129,7 @@ Bisq 通过多个不同的地址分离交易双方保护交易双方的隐私,�
 钱包密钥特征:
 
  - 管理密钥 (https://en.bitcoin.it/wiki/BIP_0032[HD wallet])
- - 创建常规和支付脚本哈希 (https://github.com/bitcoin/bips/blob/master/bip-0013.mediawiki[P2SH]) 交易
+ - 创建常规和交易签名脚本哈希 (https://github.com/bitcoin/bips/blob/master/bip-0013.mediawiki[P2SH]) 交易
  - 签署交易
  - 广播交易
  - 添加合同哈希到交易 (e.g. https://en.bitcoin.it/wiki/Script#Provably_Unspendable.2FPrunable_Outputs[`OP_RETURN`])
