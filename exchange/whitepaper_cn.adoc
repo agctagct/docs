@@ -62,8 +62,8 @@ image::images/trade-process-overview.png[交易流程概述]
 这些 https://vimeo.com/getbitsquare/[视频]演示了当前的软件，并对交易过程进行了更详细的说明。
 
 link:{uri-payment-protocol}[交易流程]的详细图示可以帮助您了解支付流程。
-文件还讨论了可能的{uri-risk-analysis}[风险，攻击和保护机制]。
-{uri-arbitration-system}[仲裁制度]将作为主要的保护机制，并在另一份文件中加以描述。
+文件还讨论了可能的 {uri-risk-analysis}[风险，攻击和保护机制]。
+ {uri-arbitration-system}[仲裁制度]将作为主要的保护机制，并在另一份文件中加以描述。
 
 === 主要特征
 
